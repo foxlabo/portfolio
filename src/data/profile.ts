@@ -58,7 +58,7 @@ export const profile = {
   site: {
     title: 'Ryo Shinsaka — AI & Full-stack Engineer / PM',
     description:
-      'AI をプロダクトに組み込み、開発も AI で加速する AI／フルスタックエンジニア・PM。業務システム開発 9 年目・最大 33 名の PL 経験と、個人開発の実績。',
+      'AIをプロダクトに組み込み、開発もAIで加速させるフルスタックエンジニア／PMです。業務システム開発は9年目で、最大33名のチームをPLとして率いた経験があります。実績と個人開発を紹介しています。',
     /** public/ 以下の OGP 画像（1200×630）。scripts/og/og.html を編集して `npm run og` で作り直せる */
     ogImage: '/og.png',
     ogImageAlt: 'Ryo Shinsaka — AI & Full-stack Engineer / PM。Software, rewritten by AI.',
