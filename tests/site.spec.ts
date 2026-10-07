@@ -48,9 +48,9 @@ test.describe('掲載する作品', () => {
     }
   });
 
-  test('「GitHub で公開中」の数字が作品数と一致する', () => {
-    const published = profile.highlights.find((h) => h.label.includes('GitHub'));
-    expect(Number(published?.value)).toBe(profile.works.filter((w) => w.repo).length);
+  test('「掲載の個人開発」の数字が作品数と一致する', () => {
+    const listed = profile.highlights.find((h) => h.label.includes('個人開発'));
+    expect(Number(listed?.value)).toBe(profile.works.length);
   });
 });
 

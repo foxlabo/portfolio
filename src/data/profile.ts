@@ -79,7 +79,7 @@ export const profile = {
     { value: '8+', unit: '年', label: 'エンジニア歴' },
     { value: '33', unit: '名', label: 'PL として率いた最大チーム' },
     { value: '50', unit: '名', label: '参画した最大規模の開発' },
-    { value: '9', unit: '件', label: 'GitHub で公開中の個人開発' },
+    { value: '8', unit: '件', label: 'ポートフォリオ掲載の個人開発' },
   ],
 
   now: [
@@ -156,16 +156,6 @@ export const profile = {
       tags: ['Next.js', 'Prisma', 'PostgreSQL', 'Azure OpenAI', 'Document Intelligence'],
       hue: 160,
       repo: 'https://github.com/foxlabo/Recepita',
-      featured: true,
-    },
-    {
-      title: 'ai-tube-engine',
-      year: '2026',
-      summary:
-        'AI VTuber 配信のオーケストレーション基盤。チャット取得 → LLM 応答 → 音声合成 → アバター制御までを 1 つのパイプラインに統合しています。',
-      tags: ['Python', 'FastAPI', 'Claude / OpenAI / Gemini', 'VOICEVOX', 'Twitch'],
-      hue: 330,
-      repo: 'https://github.com/foxlabo/ai-tube-engine',
     },
     {
       title: 'Akari',
