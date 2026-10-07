@@ -45,30 +45,31 @@ export interface Article {
 const list = <T,>(items: T[]) => items;
 
 export const profile = {
-  name: '新坂 涼',
-  nameEn: 'Ryo Shinsaka',
+  name: 'Ryo Shinsaka',
+  /** 日本語表記（About の補足として小さく表示） */
+  nameJa: '新坂 涼',
   handle: 'ryo',
   initials: 'RS',
-  role: 'Full-stack Engineer / PM',
+  role: 'AI & Full-stack Engineer / PM',
   location: 'Japan',
   timezone: 'Asia/Tokyo',
   openToWork: true,
 
   site: {
-    title: '新坂 涼 — AI × Full-stack Engineer / PM',
+    title: 'Ryo Shinsaka — AI & Full-stack Engineer / PM',
     description:
-      'AI をプロダクトに組み込み、開発も AI で加速。業務システム 8 年・最大 33 名の PL 経験をもつフルスタックエンジニアの実績と個人開発。',
+      'AI をプロダクトに組み込み、開発も AI で加速する AI／フルスタックエンジニア・PM。業務システム 8 年・最大 33 名の PL 経験と、個人開発の実績。',
     /** public/ 以下の OGP 画像（1200×630）。scripts/og/og.html を編集して `npm run og` で作り直せる */
     ogImage: '/og.png',
-    ogImageAlt: '新坂 涼 — Full-stack Engineer / PM。AIを組み込み、AIで作る。要件定義からリリースまで。',
+    ogImageAlt: 'Ryo Shinsaka — AI & Full-stack Engineer / PM。Software, rewritten by AI.',
   },
 
   tagline: {
-    lead: 'From requirements',
-    accent: 'to AI-powered delivery.',
+    lead: 'Software,',
+    accent: 'rewritten by AI.',
   },
   intro:
-    '要件定義から設計・実装・運用までを一貫して担う、マネジメント志向のフルスタックエンジニアです。Claude Code／Codex を駆使した AI 駆動開発で、現場の課題をすばやく確かな形にします。',
+    'RAG や音声・画像解析などの AI 機能をプロダクトに組み込み、開発そのものも Claude Code／Codex で加速させる AI／フルスタックエンジニア・PM です。要件定義から運用まで、一貫して担います。',
 
   about: [
     'エンジニア歴 8 年以上。金融・医療・エンタメ・物流などの業務システムを中心に、2〜50 名規模のプロジェクトで要件定義から開発・運用保守までを担当してきました。最大 33 名規模でプロジェクトリーダー、10 名規模でプロジェクトマネージャーとしてチームを牽引した経験があります。',
