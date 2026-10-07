@@ -40,6 +40,20 @@ test.describe('トップページ', () => {
   });
 });
 
+test.describe('掲載する作品', () => {
+  test('すべて公開リポジトリへのリンクを持つ（非公開の作品は載せない）', () => {
+    for (const w of profile.works) {
+      expect(w.private, w.title).toBeFalsy();
+      expect(w.repo, w.title).toMatch(/^https:\/\/github\.com\//);
+    }
+  });
+
+  test('「GitHub で公開中」の数字が作品数と一致する', () => {
+    const published = profile.highlights.find((h) => h.label.includes('GitHub'));
+    expect(Number(published?.value)).toBe(profile.works.filter((w) => w.repo).length);
+  });
+});
+
 test.describe('公開してはいけない情報', () => {
   test('HTML にメールアドレス・電話番号がそのまま含まれない', async ({ request }) => {
     const html = await (await request.get('/')).text();

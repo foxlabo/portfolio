@@ -79,7 +79,7 @@ export const profile = {
     { value: '8+', unit: '年', label: 'エンジニア歴' },
     { value: '33', unit: '名', label: 'PL として率いた最大チーム' },
     { value: '50', unit: '名', label: '参画した最大規模の開発' },
-    { value: '8', unit: '件', label: 'GitHub で公開中の個人開発' },
+    { value: '9', unit: '件', label: 'GitHub で公開中の個人開発' },
   ],
 
   now: [
@@ -138,17 +138,6 @@ export const profile = {
       featured: true,
     },
     {
-      title: 'AI VTuber Engine',
-      year: '2026',
-      summary:
-        'オリジナルの AI VTuber を自律配信させるエンジン。Twitch コメントへの応答、音声合成と口パク・表情制御、OBS 操作、長期記憶、安全フィルタ、視聴者参加型のミニゲームまでを統合しています。LLM は OpenAI／Claude Code／Codex CLI を切り替え可能。本体は非公開で、前身の汎用版 ai-tube-engine を公開しています。',
-      tags: ['Python', 'asyncio', 'OpenAI / Claude', 'faster-whisper', 'VTube Studio', 'OBS', 'Twitch'],
-      hue: 330,
-      repo: 'https://github.com/foxlabo/ai-tube-engine',
-      repoLabel: '公開版 ai-tube-engine',
-      featured: true,
-    },
-    {
       title: 'MeetQ',
       image: '/works/meetq.webp',
       year: '2026',
@@ -156,7 +145,7 @@ export const profile = {
         '会議にボットを参加させず、PC の再生音声をそのまま取り込んで文字起こしし、発言を根拠として引用しながら「次に聞くべき質問」を AI が提案するローカル Web アプリ。リアルタイムの文字起こしと定期的な質問生成に対応しています。',
       tags: ['Python', 'FastAPI', 'React', 'OpenAI Realtime API', 'Structured Outputs'],
       hue: 190,
-      private: true,
+      repo: 'https://github.com/foxlabo/MeetQ',
       featured: true,
     },
     {
@@ -167,6 +156,16 @@ export const profile = {
       tags: ['Next.js', 'Prisma', 'PostgreSQL', 'Azure OpenAI', 'Document Intelligence'],
       hue: 160,
       repo: 'https://github.com/foxlabo/Recepita',
+      featured: true,
+    },
+    {
+      title: 'ai-tube-engine',
+      year: '2026',
+      summary:
+        'AI VTuber 配信のオーケストレーション基盤。チャット取得 → LLM 応答 → 音声合成 → アバター制御までを 1 つのパイプラインに統合しています。',
+      tags: ['Python', 'FastAPI', 'Claude / OpenAI / Gemini', 'VOICEVOX', 'Twitch'],
+      hue: 330,
+      repo: 'https://github.com/foxlabo/ai-tube-engine',
     },
     {
       title: 'Akari',
