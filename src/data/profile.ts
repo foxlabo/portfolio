@@ -150,6 +150,7 @@ export const profile = {
     },
     {
       title: 'Recepita',
+      image: '/works/recepita.webp',
       year: '2026',
       summary:
         'フリーランス向けの経費・請求書管理 SaaS。レシートを撮影するだけで、OCR → AI によるカテゴリ推定 → 経費登録までを自動化します。',
