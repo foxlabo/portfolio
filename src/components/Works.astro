@@ -76,10 +76,11 @@ import Icon from './Icon.astro';
     flex-direction: column;
   }
 
+  /* 左右を同じ幅にして、区切り線が下の 2 列グリッドの中央（隙間）とそろうようにする */
   .featured {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .thumb {
@@ -97,10 +98,6 @@ import Icon from './Icon.astro';
   }
 
   /* 大きいカードはサムネイルの左右を交互にする */
-  .featured:nth-child(even) {
-    grid-template-columns: 1fr 1.15fr;
-  }
-
   .featured:nth-child(even) .thumb {
     order: 2;
     border-right: 0;
