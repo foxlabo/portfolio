@@ -55,11 +55,12 @@ export const profile = {
   openToWork: true,
 
   site: {
-    title: '新坂 涼 — Full-stack Engineer / PM',
+    title: '新坂 涼 — AI × Full-stack Engineer / PM',
     description:
-      '要件定義から設計・実装・運用までを一貫して担う、マネジメント志向のフルスタックエンジニア 新坂 涼のポートフォリオ。生成AIを活用した開発と個人開発プロダクトを紹介しています。',
-    /** public/ 以下に置いた OGP 画像（1200×630）。用意したらパスを入れてください */
-    ogImage: '',
+      'AI をプロダクトに組み込み、開発も AI で加速。業務システム 8 年・最大 33 名の PL 経験をもつフルスタックエンジニアの実績と個人開発。',
+    /** public/ 以下の OGP 画像（1200×630）。scripts/og/og.html を編集して `npm run og` で作り直せる */
+    ogImage: '/og.png',
+    ogImageAlt: '新坂 涼 — Full-stack Engineer / PM。AIを組み込み、AIで作る。要件定義からリリースまで。',
   },
 
   tagline: {

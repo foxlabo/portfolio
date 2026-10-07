@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: 'Inter Var';
+        src: url('../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2');
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: 'JB Mono';
+        src: url('../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')
+          format('woff2');
+        font-weight: 100 800;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #060609;
+      }
+      body {
+        position: relative;
+        font-family: 'Inter Var', 'Yu Gothic UI', 'Hiragino Sans', Meiryo, sans-serif;
+        color: #ececf1;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+      }
+      .b1 {
+        width: 640px;
+        height: 640px;
+        background: #5b4bff;
+        top: -280px;
+        right: -140px;
+        opacity: 0.55;
+      }
+      .b2 {
+        width: 480px;
+        height: 480px;
+        background: #00c2ff;
+        bottom: -300px;
+        right: 240px;
+        opacity: 0.26;
+      }
+      .b3 {
+        width: 380px;
+        height: 380px;
+        background: #ff3d8b;
+        top: 150px;
+        right: -170px;
+        opacity: 0.24;
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(ellipse 70% 85% at 82% 15%, #000 20%, transparent 75%);
+      }
+      .wrap {
+        position: absolute;
+        inset: 0;
+        padding: 60px 72px 64px;
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'JB Mono', monospace;
+        font-size: 20px;
+        color: #9a9aa8;
+        letter-spacing: 0.02em;
+      }
+      .logo {
+        font-family: 'Inter Var', sans-serif;
+        font-weight: 800;
+        font-size: 36px;
+        color: #fff;
+        letter-spacing: -0.04em;
+      }
+      .logo span {
+        color: #5ce1ff;
+      }
+      .main {
+        margin-top: auto;
+      }
+      .role {
+        font-family: 'JB Mono', monospace;
+        font-size: 22px;
+        letter-spacing: 0.1em;
+        color: #a9a9b8;
+        text-transform: uppercase;
+      }
+      .name {
+        margin-top: 14px;
+        font-size: 108px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1;
+      }
+      .name small {
+        margin-left: 26px;
+        font-family: 'Inter Var', sans-serif;
+        font-size: 40px;
+        font-weight: 500;
+        color: #b6b6c4;
+        letter-spacing: -0.01em;
+      }
+      .line {
+        margin-top: 28px;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        background: linear-gradient(90deg, #b2a6ff, #5ce1ff 50%, #ff8ac0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .tags {
+        margin-top: 30px;
+        display: flex;
+        gap: 12px;
+      }
+      .tag {
+        font-family: 'JB Mono', monospace;
+        font-size: 19px;
+        color: #d6d6e0;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="grid"></div>
+    <div class="wrap">
+      <div class="top">
+        <div class="logo">RS<span>.</span></div>
+        <div>portfolio.foxlabo.workers.dev</div>
+      </div>
+      <div class="main">
+        <div class="role">Full-stack Engineer / PM</div>
+        <div class="name">新坂 涼<small>Ryo Shinsaka</small></div>
+        <div class="line">AIを組み込み、AIで作る。要件定義からリリースまで。</div>
+        <div class="tags">
+          <span class="tag">AI Integration</span>
+          <span class="tag">AI-driven Dev</span>
+          <span class="tag">8+ yrs Enterprise</span>
+          <span class="tag">PL / PM</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

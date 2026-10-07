@@ -40,6 +40,19 @@ test.describe('トップページ', () => {
   });
 });
 
+test('SNS 共有用の OGP が設定され、画像が配信される', async ({ page, request }) => {
+  await page.goto('/');
+  const og = (p: string) => page.locator(`meta[property="og:${p}"]`).getAttribute('content');
+  expect(await og('title')).toBe(profile.site.title);
+  expect(await og('description')).toBe(profile.site.description);
+  const image = await og('image');
+  expect(image).toMatch(/^https:\/\/.+\/og\.png$/);
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+  const res = await request.get(new URL(image as string).pathname);
+  expect(res.status()).toBe(200);
+  expect(res.headers()['content-type']).toContain('image/png');
+});
+
 test.describe('掲載する作品', () => {
   test('すべて公開リポジトリへのリンクを持つ（非公開の作品は載せない）', () => {
     for (const w of profile.works) {
