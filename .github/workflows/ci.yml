@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       # メールボタンと「HTML にアドレスがそのまま出ない」ことを検証するためのダミー
