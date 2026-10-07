@@ -3,7 +3,7 @@ import { profile } from '../data/profile';
 import Icon from './Icon.astro';
 
 const stackLine = `${profile.stack.join(' ✦ ')} ✦`;
-const maxMonths = Math.max(...profile.skills.map((s) => s.months));
+const barRatio = (months: number) => Math.min(1, months / profile.skillScaleMonths);
 const formatMonths = (m: number) => `${Math.floor(m / 12)}年${m % 12 ? `${m % 12}ヶ月` : ''}`;
 ---
 
@@ -60,7 +60,7 @@ const formatMonths = (m: number) => `${Math.floor(m / 12)}年${m % 12 ? `${m % 1
             profile.skills.map((s) => (
               <li>
                 <span class="skill-name">{s.name}</span>
-                <span class="bar" style={`--v:${s.months / maxMonths}`} aria-hidden="true" />
+                <span class="bar" style={`--v:${barRatio(s.months)}`} aria-hidden="true" />
                 <span class="skill-years">{formatMonths(s.months)}</span>
               </li>
             ))

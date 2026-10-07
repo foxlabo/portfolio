@@ -12,6 +12,7 @@ const data = {
   about: profile.about,
   stack: profile.stack,
   skills: profile.skills,
+  skillScale: profile.skillScaleMonths,
   works: profile.works.map((w) => ({
     title: w.title,
     year: w.year,
@@ -296,6 +297,7 @@ const chips = ['help', 'about', 'skills', 'works', 'writing', 'experience', 'con
     about: string[];
     stack: string[];
     skills: { name: string; months: number }[];
+    skillScale: number;
     works: { title: string; year: string; tags: string[]; repo?: string; live?: string; private?: boolean }[];
     experience: { period: string; role: string; org: string }[];
     articles: { title: string; date: string; url: string }[];
@@ -368,10 +370,9 @@ const chips = ['help', 'about', 'skills', 'works', 'writing', 'experience', 'con
       skills: {
         desc: '技術スタック（経験年数）',
         run: () => {
-          const max = Math.max(...d.skills.map((s) => s.months));
           return d.skills
             .map((s) => {
-              const filled = Math.max(1, Math.round((s.months / max) * 12));
+              const filled = Math.max(1, Math.round(Math.min(1, s.months / d.skillScale) * 12));
               const years = `${Math.floor(s.months / 12)}y${s.months % 12 ? `${s.months % 12}m` : ''}`;
               return `${pad(s.name, 20)}${span('acc', '█'.repeat(filled))}${span('dim', '░'.repeat(12 - filled))} ${span('y', years)}`;
             })

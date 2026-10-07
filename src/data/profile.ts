@@ -72,6 +72,7 @@ export const profile = {
   about: [
     'エンジニア歴 8 年以上。金融・医療・エンタメ・物流などの業務システムを中心に、2〜50 名規模のプロジェクトで要件定義から開発・運用保守までを担当してきました。最大 33 名規模でプロジェクトリーダー、10 名規模でプロジェクトマネージャーとしてチームを牽引した経験があります。',
     '現在はフリーランスとして、生成 AI を活用した Web サービス（RAG チャットボット、AI 面接、画像解析 AI）のフルスタック開発に参画しています。Claude Code・Codex を開発の各工程に取り入れつつ、設計判断と品質の担保は自分で行う「AI 駆動開発」を実践しています。',
+    '個人では、AI VTuber を自律配信させるエンジンを開発しています。Twitch のコメントに LLM が応答し、音声合成・口パク・表情、OBS の配信操作までを自動で回す仕組みです。また、125B パラメータ級の LLM を量子化して手元の GPU で動かすローカル LLM 環境を構築し、外部に出せないデータでの AI 活用も検証しています。',
   ],
 
   /** About の「数字で見る」カード */
@@ -84,7 +85,8 @@ export const profile = {
 
   now: [
     '生成 AI × Web サービスのフルスタック開発（RAG・音声 AI・画像解析）',
-    '金融機関向けシステムでの AI 駆動開発の実践とチームへの展開',
+    'AI VTuber の自律配信エンジンの開発（Twitch 連携・音声合成・リップシンク・OBS 自動制御）',
+    '125B 級 LLM（MoE・量子化）をローカル GPU で運用し、社外に出せないデータでの AI 活用を検証',
     'note で Claude Code／Codex など生成 AI 開発の知見を発信',
   ],
 
@@ -105,38 +107,27 @@ export const profile = {
     'Azure',
     'Terraform',
     'Docker',
-    'Claude Code',
-    'Codex',
+    'Claude Code / Codex',
+    'Local LLM',
   ],
 
-  /** 経験期間（月数）。バーの長さは最長の経験に対する割合 */
+  /**
+   * 経験期間（月数）。バーは skillScaleMonths で満タンになる（それ以上は頭打ち）。
+   * 長年の経験が 1 つだけ突出して見えないよう、上限を 3 年にしている。
+   */
+  skillScaleMonths: 36,
   skills: [
-    { name: 'Linux', months: 99 },
-    { name: 'Oracle', months: 69 },
-    { name: 'Java / Spring Boot', months: 60 },
-    { name: 'C# / .NET', months: 36 },
     { name: 'TypeScript / React', months: 27 },
-    { name: 'PostgreSQL', months: 27 },
+    { name: 'Java / Spring Boot', months: 60 },
+    { name: 'Python / FastAPI', months: 21 },
+    { name: 'C# / .NET', months: 36 },
+    { name: 'Oracle / PostgreSQL', months: 69 },
     { name: 'Docker', months: 27 },
     { name: 'PM', months: 24 },
-    { name: 'Python / FastAPI', months: 21 },
-    { name: 'Claude Code', months: 15 },
+    { name: 'Claude Code / Codex', months: 15 },
   ],
 
   works: list<Work>([
-    {
-      title: 'Tsumugi',
-      image: '/works/tsumugi.webp',
-      year: '2026',
-      summary:
-        'AI パネルを搭載した Windows 向けのテキストエディタ。文字コードの自動判定、grep、Markdown プレビューを備え、OpenAI／Anthropic／Gemini／Ollama や Claude Code・Codex CLI など 7 種類の AI を切り替えて使えます。インストーラーを GitHub Releases で配布しています。',
-      tags: ['Tauri 2', 'Rust', 'Next.js 16', 'React 19', 'Monaco Editor'],
-      hue: 265,
-      repo: 'https://github.com/foxlabo/tsumugi',
-      live: 'https://github.com/foxlabo/tsumugi/releases',
-      liveLabel: 'Download',
-      featured: true,
-    },
     {
       title: 'MeetQ',
       image: '/works/meetq.webp',
@@ -202,6 +193,19 @@ export const profile = {
       tags: ['Next.js 16', 'SQLite', 'Drizzle', 'Zod'],
       hue: 120,
       repo: 'https://github.com/foxlabo/toki',
+    },
+    {
+      title: 'Tsumugi',
+      image: '/works/tsumugi.webp',
+      year: '2026',
+      summary:
+        'AI パネルを搭載した Windows 向けのテキストエディタ。文字コードの自動判定、grep、Markdown プレビューを備え、OpenAI／Anthropic／Gemini／Ollama や Claude Code・Codex CLI など 7 種類の AI を切り替えて使えます。インストーラーを GitHub Releases で配布しています。',
+      tags: ['Tauri 2', 'Rust', 'Next.js 16', 'React 19', 'Monaco Editor'],
+      hue: 265,
+      repo: 'https://github.com/foxlabo/tsumugi',
+      live: 'https://github.com/foxlabo/tsumugi/releases',
+      liveLabel: 'Download',
+      featured: true,
     },
   ]),
 
