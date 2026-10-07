@@ -1,0 +1,250 @@
+---
+import { profile } from '../data/profile';
+import Icon from './Icon.astro';
+---
+
+<section class="section" id="works" aria-labelledby="works-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">02</span>
+      <h2 class="section-title" id="works-title">Works</h2>
+    </div>
+
+    <div class="works">
+      {
+        profile.works.map((w, i) => (
+          <article class:list={['card glow work reveal', { featured: w.featured }]} style={`--h:${w.hue}`}>
+            <div class="thumb" aria-hidden={w.image ? undefined : 'true'}>
+              {w.image ? (
+                <img
+                  src={w.image}
+                  alt={`${w.title} のスクリーンショット`}
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="art">
+                  <span>{String(i + 1).padStart(2, '0')}</span>
+                </div>
+              )}
+            </div>
+            <div class="body">
+              <p class="label">{w.year}</p>
+              <h3>{w.title}</h3>
+              <p class="summary">{w.summary}</p>
+              <ul class="tags">
+                {w.tags.map((t) => (
+                  <li class="tag">{t}</li>
+                ))}
+              </ul>
+              {(w.repo || w.live || w.private) && (
+                <div class="links">
+                  {w.repo && (
+                    <a href={w.repo} target="_blank" rel="noopener noreferrer">
+                      <Icon name="github" size={15} />
+                      {w.repoLabel ?? 'Code'}
+                    </a>
+                  )}
+                  {w.live && (
+                    <a href={w.live} target="_blank" rel="noopener noreferrer">
+                      <Icon name="arrow-up-right" size={15} />
+                      {w.liveLabel ?? 'Live'}
+                    </a>
+                  )}
+                  {w.private && !w.repo && <span class="private">ソース非公開</span>}
+                </div>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .works {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .work {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+  }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .featured .thumb {
+    aspect-ratio: auto;
+    min-height: 300px;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+
+  /* 大きいカードはサムネイルの左右を交互にする */
+  .featured:nth-child(even) {
+    grid-template-columns: 1fr 1.15fr;
+  }
+
+  .featured:nth-child(even) .thumb {
+    order: 2;
+    border-right: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  /* 大きいカードではサムネイルが列幅いっぱいに広がるので高さを確保 */
+  .featured .thumb img {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* 画像がない作品は色相から抽象的なサムネイルを生成 */
+  .art {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 25% 25%, hsl(var(--h) 90% 65% / 0.55), transparent 55%),
+      radial-gradient(circle at 80% 85%, hsl(calc(var(--h) + 60) 90% 60% / 0.38), transparent 50%),
+      #0b0b13;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(135deg, #000, transparent 70%);
+  }
+
+  .art span {
+    position: absolute;
+    right: 20px;
+    bottom: 4px;
+    font-family: var(--font-mono);
+    font-size: clamp(64px, 9vw, 120px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: rgba(255, 255, 255, 0.1);
+  }
+
+  .work:hover .art,
+  .work:hover .thumb img {
+    transform: scale(1.04);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px 24px;
+    flex: 1;
+  }
+
+  .featured .body {
+    justify-content: center;
+    padding: 36px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 620;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .featured h3 {
+    font-size: clamp(26px, 3vw, 34px);
+  }
+
+  .summary {
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    margin-top: auto;
+    padding-top: 10px;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text-2);
+    transition: color 0.2s;
+  }
+
+  .links a:hover {
+    color: var(--accent-2);
+  }
+
+  .private {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  @media (max-width: 760px) {
+    .works {
+      grid-template-columns: 1fr;
+    }
+
+    .featured {
+      display: flex;
+    }
+
+    .featured .thumb,
+    .featured:nth-child(even) .thumb {
+      order: 0;
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+      border-right: 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .featured .body {
+      padding: 22px 24px 24px;
+    }
+  }
+</style>

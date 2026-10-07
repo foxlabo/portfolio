@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-10-01",
+  // Astro が dist/ に出力した静的ファイルをそのまま配信する
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

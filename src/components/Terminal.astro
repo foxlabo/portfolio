@@ -1,0 +1,531 @@
+---
+import { profile } from '../data/profile';
+import { getArticles } from '../data/articles';
+import { contactEmailParts } from '../data/contact';
+
+// ターミナルのコマンドが使うデータ（profile.ts から必要な分だけ渡す）
+const data = {
+  name: profile.name,
+  handle: profile.handle,
+  role: profile.role,
+  location: profile.location,
+  about: profile.about,
+  stack: profile.stack,
+  skills: profile.skills,
+  works: profile.works.map((w) => ({
+    title: w.title,
+    year: w.year,
+    tags: w.tags,
+    repo: w.repo,
+    live: w.live,
+    private: w.private,
+  })),
+  experience: profile.experience.map(({ period, role, org }) => ({ period, role, org })),
+  articles: await getArticles(),
+  links: profile.links.map(({ label, href }) => ({ label, href })),
+  // メールアドレスは収集ボット対策で分割して渡す
+  mail: contactEmailParts,
+};
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+const chips = ['help', 'about', 'skills', 'works', 'writing', 'experience', 'contact', 'clear'];
+---
+
+<dialog class="term" id="terminal" aria-label="ターミナル">
+  <div class="win">
+    <div class="bar">
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="title">{profile.handle}@portfolio: ~</span>
+      <button class="close" type="button" data-close aria-label="ターミナルを閉じる">esc</button>
+    </div>
+    <div class="body" data-body>
+      <div data-out aria-live="polite"></div>
+      <form class="line" data-form>
+        <label for="term-input" class="ps">➜ <b>~</b></label>
+        <input id="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" />
+      </form>
+    </div>
+    <div class="chips">
+      {
+        chips.map((c) => (
+          <button type="button" data-cmd={c}>
+            {c}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</dialog>
+<script type="application/json" id="terminal-data" set:html={json} />
+
+<style>
+  .term {
+    width: min(880px, calc(100% - 32px));
+    max-width: none;
+    max-height: none;
+    /* グローバルの margin リセットで中央寄せが消えるため戻す */
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    overflow: visible;
+  }
+
+  .term::backdrop {
+    background: rgba(4, 4, 8, 0.6);
+    backdrop-filter: blur(6px);
+  }
+
+  .term[open] .win {
+    animation: term-in 0.28s var(--ease-out);
+  }
+
+  @keyframes term-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  .win {
+    display: flex;
+    flex-direction: column;
+    height: min(560px, calc(100svh - 48px));
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0d1117;
+    border: 1px solid #232a33;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      0 0 140px rgba(46, 160, 67, 0.16);
+    font-family: var(--font-mono);
+  }
+
+  .bar {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 12px 0 14px;
+    background: #0f141b;
+    border-bottom: 1px solid #232a33;
+  }
+
+  .dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dots i {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+
+  .dots i:nth-child(2) {
+    background: #febc2e;
+  }
+
+  .dots i:nth-child(3) {
+    background: #28c840;
+  }
+
+  .title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #7d8590;
+    white-space: nowrap;
+  }
+
+  .close {
+    margin-left: auto;
+    padding: 2px 8px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #7d8590;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #e6edf3;
+    border-color: #7d8590;
+  }
+
+  .body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #c9d1d9;
+    cursor: text;
+  }
+
+  .body :global(.block) {
+    margin-bottom: 8px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .ps,
+  .body :global(.ps) {
+    color: #3fb950;
+  }
+
+  .ps b,
+  .body :global(.ps b) {
+    color: #58a6ff;
+    font-weight: 600;
+  }
+
+  .line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .line input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    color: #e6edf3;
+    caret-color: #3fb950;
+  }
+
+  .body :global(.acc) {
+    color: #3fb950;
+  }
+  .body :global(.dim) {
+    color: #6e7681;
+  }
+  .body :global(.err) {
+    color: #ff7b72;
+  }
+  .body :global(.b) {
+    color: #58a6ff;
+  }
+  .body :global(.y) {
+    color: #e3b341;
+  }
+
+  .body :global(a) {
+    color: #58a6ff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .body :global(.neo) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    align-items: flex-start;
+    white-space: normal;
+  }
+
+  .body :global(.neo pre) {
+    margin: 0;
+    font: inherit;
+    white-space: pre;
+  }
+
+  .body :global(.neo .logo) {
+    padding-top: 6px;
+    font-size: 14px;
+    line-height: 1;
+    background: linear-gradient(180deg, #3fb950, #58a6ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .chips {
+    flex: none;
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    overflow-x: auto;
+    border-top: 1px solid #232a33;
+    background: #0f141b;
+  }
+
+  .chips button {
+    flex: none;
+    padding: 5px 11px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #c9d1d9;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .chips button:hover {
+    border-color: #3fb950;
+    color: #3fb950;
+  }
+
+  @media (max-width: 600px) {
+    .body {
+      font-size: 12.5px;
+    }
+
+    .title {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  interface TermData {
+    name: string;
+    handle: string;
+    role: string;
+    location: string;
+    about: string[];
+    stack: string[];
+    skills: { name: string; months: number }[];
+    works: { title: string; year: string; tags: string[]; repo?: string; live?: string; private?: boolean }[];
+    experience: { period: string; role: string; org: string }[];
+    articles: { title: string; date: string; url: string }[];
+    links: { label: string; href: string }[];
+    mail: string[];
+  }
+
+  interface Command {
+    /** help に表示する説明。省略すると隠しコマンド */
+    desc?: string;
+    run: (args: string[]) => string | void;
+  }
+
+  const dialog = document.querySelector<HTMLDialogElement>('#terminal');
+  const raw = document.getElementById('terminal-data')?.textContent;
+  if (dialog && raw) setup(dialog, JSON.parse(raw) as TermData);
+
+  function setup(dialog: HTMLDialogElement, d: TermData) {
+    const out = dialog.querySelector<HTMLElement>('[data-out]')!;
+    const body = dialog.querySelector<HTMLElement>('[data-body]')!;
+    const form = dialog.querySelector<HTMLFormElement>('[data-form]')!;
+    const input = dialog.querySelector<HTMLInputElement>('#term-input')!;
+    const sections = ['about', 'works', 'writing', 'experience', 'contact'];
+    const touch = matchMedia('(hover: none)').matches;
+    const past: string[] = [];
+    let cursor = 0;
+    let booted = false;
+
+    const esc = (s: string) => s.replace(/[&<>"']/g, (ch) => `&#${ch.charCodeAt(0)};`);
+    const span = (cls: string, html: string) => `<span class="${cls}">${html}</span>`;
+    const link = (href: string, label: string) =>
+      `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`;
+    const pad = (s: string, n: number) => esc(s.padEnd(n));
+
+    const print = (html: string) => {
+      const el = document.createElement('div');
+      el.className = 'block';
+      el.innerHTML = html;
+      out.append(el);
+      body.scrollTop = body.scrollHeight;
+    };
+
+    const logo = ['███', '  ███', '    ███', '  ███', '███   ███████'].join('\n');
+
+    const goTo = (section?: string) => {
+      if (!section || !sections.includes(section)) {
+        return `${span('err', `no such section: ${esc(section ?? '')}`)}\n${span('dim', `使えるセクション: ${sections.join(', ')}`)}`;
+      }
+      dialog.close();
+      document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const commands: Record<string, Command> = {
+      help: {
+        desc: 'コマンド一覧',
+        run: () =>
+          [
+            span('dim', '利用できるコマンド:'),
+            ...Object.entries(commands)
+              .filter(([, c]) => c.desc)
+              .map(([name, c]) => `  ${span('acc', pad(name, 12))}${esc(c.desc!)}`),
+            '',
+            span('dim', 'Tab で補完 / ↑↓ で履歴 / Esc で閉じる'),
+          ].join('\n'),
+      },
+      about: {
+        desc: '自己紹介',
+        run: () => `${span('b', esc(d.name))} — ${esc(d.role)}\n\n${d.about.map(esc).join('\n\n')}`,
+      },
+      skills: {
+        desc: '技術スタック（経験年数）',
+        run: () => {
+          const max = Math.max(...d.skills.map((s) => s.months));
+          return d.skills
+            .map((s) => {
+              const filled = Math.max(1, Math.round((s.months / max) * 12));
+              const years = `${Math.floor(s.months / 12)}y${s.months % 12 ? `${s.months % 12}m` : ''}`;
+              return `${pad(s.name, 20)}${span('acc', '█'.repeat(filled))}${span('dim', '░'.repeat(12 - filled))} ${span('y', years)}`;
+            })
+            .join('\n');
+        },
+      },
+      works: {
+        desc: '制作物',
+        run: () =>
+          d.works
+            .map((w, i) => {
+              const links = [w.repo && link(w.repo, 'code'), w.live && link(w.live, 'live'), w.private && !w.repo && span('dim', '(private)')]
+                .filter(Boolean)
+                .join(' ');
+              return `${span('b', String(i + 1).padStart(2, '0'))}  ${pad(w.title, 18)}${span('dim', esc(w.tags.slice(0, 3).join(', ')))}${links ? `  ${links}` : ''}`;
+            })
+            .join('\n'),
+      },
+      writing: {
+        desc: 'note の最新記事',
+        run: () =>
+          d.articles.length
+            ? d.articles.map((a) => `${span('y', esc(a.date))}  ${link(a.url, a.title)}`).join('\n')
+            : span('dim', '記事はまだありません'),
+      },
+      experience: {
+        desc: '経歴',
+        run: () => d.experience.map((e) => `${span('y', pad(e.period, 20))}${esc(e.role)}\n${' '.repeat(20)}${span('dim', esc(e.org))}`).join('\n'),
+      },
+      contact: {
+        desc: '連絡先',
+        run: () => {
+          const rows = d.links.map((l) => `${pad(l.label.toLowerCase(), 10)}${link(l.href, l.href.replace(/^https?:\/\//, ''))}`);
+          if (d.mail.length === 2) {
+            const address = d.mail.join('@');
+            rows.push(`${pad('email', 10)}${link(`mailto:${address}`, address)}`);
+          }
+          return rows.join('\n');
+        },
+      },
+      neofetch: {
+        desc: 'プロフィールの概要',
+        run: () => {
+          const row = (k: string, v: string) => `${span('y', pad(k, 10))}${esc(v)}`;
+          const info = [
+            `${span('acc', esc(d.handle))}@${span('b', 'portfolio')}`,
+            span('dim', '─'.repeat(24)),
+            row('Name', d.name),
+            row('Role', d.role),
+            row('Location', d.location),
+            row('Stack', d.stack.slice(0, 4).join(', ')),
+            row('Works', `${d.works.length} projects`),
+            row('Shell', 'portfolio-sh 1.0'),
+          ].join('\n');
+          return `<div class="neo"><pre class="logo">${logo}</pre><pre>${info}</pre></div>`;
+        },
+      },
+      open: { desc: 'セクションへ移動（例: open works）', run: ([s]) => goTo(s) },
+      clear: {
+        desc: '画面をクリア',
+        run: () => {
+          out.innerHTML = '';
+        },
+      },
+      exit: {
+        desc: 'ターミナルを閉じる',
+        run: () => {
+          dialog.close();
+        },
+      },
+      // 以下は help に出ない隠しコマンド
+      cd: { run: ([s]) => goTo(s?.replace(/\/$/, '')) },
+      ls: { run: () => sections.map((s) => span('b', `${s}/`)).join('  ') },
+      whoami: { run: () => esc(d.handle) },
+      date: { run: () => esc(new Date().toString()) },
+      sudo: { run: () => span('err', `${esc(d.handle)} is not in the sudoers file. This incident will be reported.`) },
+    };
+
+    const run = (line: string) => {
+      const text = line.trim();
+      print(`<span class="ps">➜ <b>~</b></span> ${esc(text)}`);
+      if (!text) return;
+      past.push(text);
+      cursor = past.length;
+      const [name, ...args] = text.split(/\s+/);
+      const key = name.toLowerCase();
+      if (!Object.hasOwn(commands, key)) {
+        print(`${span('err', `command not found: ${esc(name)}`)}  ${span('dim', 'help で一覧を表示')}`);
+        return;
+      }
+      const result = commands[key].run(args);
+      if (result) print(result);
+    };
+
+    const open = () => {
+      if (dialog.open) return;
+      dialog.showModal();
+      if (!touch) input.focus();
+      if (!booted) {
+        booted = true;
+        run('neofetch');
+        print(span('dim', 'help と入力するか、下のボタンを押してください。'));
+      }
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      run(input.value);
+      input.value = '';
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (cursor > 0) input.value = past[--cursor];
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cursor = Math.min(past.length, cursor + 1);
+        input.value = past[cursor] ?? '';
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const typed = input.value.trim().toLowerCase();
+        const hits = Object.keys(commands).filter((c) => c.startsWith(typed));
+        if (typed && hits.length === 1) input.value = hits[0];
+        else if (typed && hits.length > 1) print(span('dim', hits.join('  ')));
+      } else if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        out.innerHTML = '';
+      }
+    });
+
+    // 「/」キーで開く（入力欄にフォーカスがあるときは無視）
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || dialog.open) return;
+      if ((e.target as HTMLElement).closest('input, textarea, select, [contenteditable="true"]')) return;
+      e.preventDefault();
+      open();
+    });
+
+    document.querySelectorAll('[data-open-terminal]').forEach((b) => b.addEventListener('click', open));
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    // 背景（::backdrop）のクリックで閉じる
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.querySelectorAll<HTMLButtonElement>('[data-cmd]').forEach((b) =>
+      b.addEventListener('click', () => {
+        run(b.dataset.cmd!);
+        if (!touch) input.focus();
+      }),
+    );
+    body.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a') || getSelection()?.toString()) return;
+      input.focus();
+    });
+  }
+</script>

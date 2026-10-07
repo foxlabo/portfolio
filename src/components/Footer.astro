@@ -1,0 +1,50 @@
+---
+import { profile } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <p>© {year} {profile.name}</p>
+    <p class="built">Built with Astro · Hosted on Cloudflare</p>
+    <button type="button" data-open-terminal>
+      <span class="kbd" aria-hidden="true">/</span> ターミナルを開く
+    </button>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: clamp(96px, 14vw, 160px);
+    border-top: 1px solid var(--line);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding-block: 28px 36px;
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 13px;
+    color: var(--text-3);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  button:hover {
+    color: var(--ok);
+  }
+</style>

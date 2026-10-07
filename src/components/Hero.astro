@@ -1,0 +1,192 @@
+---
+import { profile } from '../data/profile';
+import Icon from './Icon.astro';
+---
+
+<section class="hero" id="top">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-inner container">
+    <p class="eyebrow">{profile.role} · {profile.location}</p>
+    <h1 class="hero-title">
+      {profile.tagline.lead}<br />
+      <span class="gradient-text">{profile.tagline.accent}</span>
+    </h1>
+    <p class="hero-lead">{profile.intro}</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#works">制作物を見る <Icon name="arrow-down" size={16} /></a>
+      <a class="btn btn-ghost" href="#contact">お問い合わせ</a>
+    </div>
+    <button class="hero-hint" type="button" data-open-terminal>
+      <Icon name="terminal" size={14} />
+      ターミナルで見る
+      <span class="kbd" aria-hidden="true">/</span>
+    </button>
+  </div>
+
+  <div class="hero-meta container" aria-hidden="true">
+    <span>{profile.nameEn} — Portfolio</span>
+    <span data-coord>x 0.68 / y 0.45</span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 128px 0 112px;
+    overflow: hidden;
+    /* WebGL が使えないときの背景 */
+    background:
+      radial-gradient(ellipse at 72% 30%, rgba(70, 50, 220, 0.55), transparent 60%),
+      radial-gradient(ellipse at 30% 85%, rgba(20, 110, 160, 0.35), transparent 55%),
+      var(--bg);
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+
+  .hero-canvas.is-ready {
+    opacity: 1;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 75%);
+  }
+
+  /* 文字の読みやすさのため、テキストの背後と下端を暗くする */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 55% at 22% 55%, rgba(6, 6, 9, 0.55), transparent 70%),
+      linear-gradient(to bottom, rgba(6, 6, 9, 0.3), transparent 25%, transparent 65%, var(--bg));
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-inner > * {
+    animation: rise 1s var(--ease-out) both;
+  }
+
+  .hero-inner > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .hero-inner > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
+  .hero-inner > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+
+  .hero-inner > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(8px);
+    }
+  }
+
+  .hero-title {
+    margin-top: 20px;
+    font-size: clamp(42px, 7.4vw, 92px);
+    font-weight: 640;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-lead {
+    margin-top: 28px;
+    max-width: 560px;
+    font-size: clamp(15px, 1.6vw, 17px);
+    color: var(--text-2);
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .hero-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-3);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .hero-hint:hover {
+    color: var(--ok);
+  }
+
+  /* タッチ端末ではキーボードショートカットの表示を隠す */
+  @media (hover: none) {
+    .hero-hint .kbd {
+      display: none;
+    }
+  }
+
+  .hero-meta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+</style>
+
+<script>
+  import { initShader } from '../scripts/shader';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('.hero-canvas');
+  const coord = document.querySelector<HTMLElement>('[data-coord]');
+  if (canvas) {
+    initShader(canvas, {
+      onPointer: (x, y) => {
+        if (coord) coord.textContent = `x ${x.toFixed(2)} / y ${y.toFixed(2)}`;
+      },
+    });
+  }
+</script>

@@ -1,0 +1,119 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section class="section" id="experience" aria-labelledby="experience-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">04</span>
+      <h2 class="section-title" id="experience-title">Experience</h2>
+    </div>
+
+    <ol class="timeline">
+      {
+        profile.experience.map((e) => (
+          <li class:list={['item reveal', { current: e.current }]}>
+            <span class="dot" aria-hidden="true" />
+            <p class="period">{e.period}</p>
+            <div>
+              <h3>{e.role}</h3>
+              <p class="org">{e.org}</p>
+              <p class="summary">{e.summary}</p>
+              <ul class="tags">
+                {e.tags.map((t) => (
+                  <li class="tag">{t}</li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: linear-gradient(var(--accent), var(--line) 45%);
+  }
+
+  .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 6px 32px;
+    padding: 0 0 44px 44px;
+  }
+
+  .item:last-child {
+    padding-bottom: 0;
+  }
+
+  .dot {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--line-strong);
+  }
+
+  .current .dot {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 4px rgba(139, 123, 255, 0.15),
+      0 0 22px rgba(139, 123, 255, 0.7);
+  }
+
+  .period {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-3);
+    padding-top: 2px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+  }
+
+  .org {
+    font-size: 14px;
+    color: var(--text-3);
+  }
+
+  .summary {
+    margin-top: 8px;
+    max-width: 640px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  @media (max-width: 680px) {
+    .item {
+      grid-template-columns: 1fr;
+      padding-left: 36px;
+    }
+  }
+</style>

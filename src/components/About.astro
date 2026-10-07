@@ -1,0 +1,370 @@
+---
+import { profile } from '../data/profile';
+import Icon from './Icon.astro';
+
+const stackLine = `${profile.stack.join(' ✦ ')} ✦`;
+const maxMonths = Math.max(...profile.skills.map((s) => s.months));
+const formatMonths = (m: number) => `${Math.floor(m / 12)}年${m % 12 ? `${m % 12}ヶ月` : ''}`;
+---
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">01</span>
+      <h2 class="section-title" id="about-title">About</h2>
+    </div>
+
+    <div class="bento">
+      <article class="card glow b-about reveal">
+        <p class="label">Profile</p>
+        <h3 class="name">{profile.name}</h3>
+        <p class="role">{profile.nameEn} · {profile.role}</p>
+        <div class="about-text">
+          {profile.about.map((p) => <p>{p}</p>)}
+        </div>
+      </article>
+
+      <div class="card glow b-activity reveal">
+        <p class="label">By the numbers</p>
+        <dl class="numbers">
+          {
+            profile.highlights.map((h) => (
+              <div>
+                <dt>{h.label}</dt>
+                <dd>
+                  <span class="gradient-text">{h.value}</span>
+                  {h.unit}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="card glow b-time reveal">
+        <p class="label">Local time</p>
+        <p class="clock" data-clock data-tz={profile.timezone}>--:--:--</p>
+        <p class="sub">{profile.timezone}</p>
+      </div>
+
+      <div class="card glow b-stack reveal">
+        <p class="label">Daily stack</p>
+        <div class="marquee">
+          <div class="marquee-track">
+            <span>{stackLine}</span>
+            <span aria-hidden="true">{stackLine}</span>
+          </div>
+        </div>
+        <ul class="skills">
+          {
+            profile.skills.map((s) => (
+              <li>
+                <span class="skill-name">{s.name}</span>
+                <span class="bar" style={`--v:${s.months / maxMonths}`} aria-hidden="true" />
+                <span class="skill-years">{formatMonths(s.months)}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="card glow b-now reveal">
+        <p class="label">Now</p>
+        <ul class="now">
+          {profile.now.map((n) => <li>{n}</li>)}
+        </ul>
+      </div>
+
+      <div class="card glow b-social reveal">
+        <p class="label">Elsewhere</p>
+        <ul class="social">
+          {
+            profile.links.map((l) => (
+              <li>
+                <a href={l.href} target="_blank" rel="noopener noreferrer">
+                  <Icon name={l.icon} size={16} />
+                  <span>{l.label}</span>
+                  <Icon name="arrow-up-right" size={14} class="arrow" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1.25fr 1.2fr 0.8fr;
+    grid-template-areas:
+      'about activity time'
+      'about stack stack'
+      'now now social';
+  }
+
+  .card {
+    padding: 22px 24px;
+  }
+
+  .b-about {
+    grid-area: about;
+  }
+  .b-activity {
+    grid-area: activity;
+  }
+  .b-time {
+    grid-area: time;
+  }
+  .b-stack {
+    grid-area: stack;
+  }
+  .b-now {
+    grid-area: now;
+  }
+  .b-social {
+    grid-area: social;
+  }
+
+  .name {
+    margin-top: 18px;
+    font-size: 28px;
+    font-weight: 640;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .role {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--text-3);
+  }
+
+  .about-text {
+    margin-top: 20px;
+    display: grid;
+    gap: 14px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .numbers {
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+
+  .numbers div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+  }
+
+  .numbers dt {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  .numbers dd {
+    margin: 0;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .numbers dd span {
+    margin-right: 3px;
+    font-size: clamp(30px, 3.4vw, 40px);
+    font-weight: 660;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .clock {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: clamp(26px, 3vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+
+  .sub {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  .marquee {
+    margin-top: 14px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-track span {
+    padding-right: 28px;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 520;
+    letter-spacing: -0.01em;
+    color: #dcdce6;
+  }
+
+  .skills {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 28px;
+  }
+
+  .skills li {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr) 64px;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  .skill-years {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .bar {
+    position: relative;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform-origin: left;
+    transform: scaleX(var(--v));
+  }
+
+  .now {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .now li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .now li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.72em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-2);
+  }
+
+  .social {
+    margin-top: 10px;
+  }
+
+  .social a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--text-2);
+    transition: color 0.2s;
+  }
+
+  .social li:last-child a {
+    border-bottom: 0;
+  }
+
+  .social a:hover {
+    color: var(--text);
+  }
+
+  .social a span {
+    flex: 1;
+  }
+
+  .social :global(.arrow) {
+    color: var(--text-3);
+    transition: transform 0.2s var(--ease-out);
+  }
+
+  .social a:hover :global(.arrow) {
+    transform: translate(2px, -2px);
+    color: var(--accent-2);
+  }
+
+  @media (max-width: 900px) {
+    .bento {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        'about about'
+        'activity activity'
+        'time social'
+        'stack stack'
+        'now now';
+    }
+  }
+
+  @media (max-width: 580px) {
+    .bento {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'about' 'activity' 'time' 'stack' 'now' 'social';
+    }
+
+    .skills {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('[data-clock]')) {
+    const format = new Intl.DateTimeFormat('ja-JP', {
+      timeZone: el.dataset.tz,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    const tick = () => {
+      el.textContent = format.format(new Date());
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

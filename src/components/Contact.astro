@@ -1,0 +1,84 @@
+---
+import { profile } from '../data/profile';
+import { contactEmailParts } from '../data/contact';
+import Icon from './Icon.astro';
+
+// メールアドレスは HTML に直接書かず、表示時に組み立てて収集ボットを避ける
+const [mailUser, mailDomain] = contactEmailParts;
+---
+
+<section class="section" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="card glow contact reveal">
+      <div class="contact-bg" aria-hidden="true"></div>
+      <p class="eyebrow">05 — Contact</p>
+      <h2 class="title" id="contact-title">
+        Let's build<br />
+        <span class="gradient-text">something together.</span>
+      </h2>
+      <p class="lead">お仕事のご相談、カジュアル面談、技術の雑談など、気軽にご連絡ください。</p>
+      <div class="actions">
+        {
+          mailUser && (
+            <a class="btn btn-primary" href="#contact" data-mail-user={mailUser} data-mail-domain={mailDomain}>
+              <Icon name="mail" size={17} />
+              メールを送る
+            </a>
+          )
+        }
+        {
+          profile.links.map((l) => (
+            <a class="btn btn-ghost" href={l.href} target="_blank" rel="noopener noreferrer">
+              <Icon name={l.icon} size={16} />
+              {l.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: clamp(36px, 7vw, 80px);
+    text-align: center;
+  }
+
+  .contact-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 50% 70% at 50% 110%, rgba(139, 123, 255, 0.35), transparent 70%),
+      radial-gradient(ellipse 30% 50% at 85% 0%, rgba(92, 225, 255, 0.12), transparent 70%);
+  }
+
+  .title {
+    margin-top: 20px;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 640;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+
+  .lead {
+    margin: 24px auto 0;
+    max-width: 480px;
+    color: var(--text-2);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 36px;
+  }
+</style>
+
+<script>
+  for (const a of document.querySelectorAll<HTMLAnchorElement>('[data-mail-user]')) {
+    a.href = `mailto:${a.dataset.mailUser}@${a.dataset.mailDomain}`;
+  }
+</script>
