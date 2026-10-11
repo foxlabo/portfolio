@@ -235,11 +235,11 @@ export const profile = {
     },
     {
       period: '2024.01 — 2025.12',
-      role: 'プロジェクトマネージャー',
+      role: 'プロジェクトマネージャー／FDE',
       org: '医療機器メーカー向け基幹システム（フリーランス・10 名規模）',
       summary:
-        'RFID／IoT による所在管理・棚卸の自動化など、顧客の DX を企画・推進。計画立案、WBS・進捗・品質管理、提案書や RFP の作成支援を担当し、Claude Code・Cursor をチームに導入。',
-      tags: ['PM', 'Azure', 'Java', 'C#', 'Next.js', 'Claude Code', 'Cursor'],
+        'FDE（Forward Deployed Engineer）として顧客の現場に入り込み、業務フローと課題をその場で確かめながら、解決のためのツールを AI 駆動で素早く作成。RFID／IoT による所在管理・棚卸の自動化や、業務システムへの AI 機能の組み込みなど、顧客の DX を企画・推進。PM として計画立案、WBS・進捗・品質管理、提案書や RFP の作成支援を担当し、Claude Code・Cursor をチームに導入。',
+      tags: ['PM', 'FDE', 'AI Integration', 'Azure', 'Java', 'C#', 'Next.js', 'Claude Code', 'Cursor'],
     },
     {
       period: '2020.07 — 2023.12',
