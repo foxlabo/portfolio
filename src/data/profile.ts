@@ -103,6 +103,7 @@ export const profile = {
     'C# / .NET',
     'Python',
     'FastAPI',
+    'Rust',
     'PostgreSQL',
     'Oracle',
     'AWS',
@@ -127,6 +128,7 @@ export const profile = {
     { name: 'Docker', months: 27 },
     { name: 'PM', months: 24 },
     { name: 'Claude Code / Codex', months: 15 },
+    { name: 'Rust', months: 6 },
   ],
 
   works: list<Work>([

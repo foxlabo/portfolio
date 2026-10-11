@@ -373,7 +373,9 @@ const chips = ['help', 'about', 'skills', 'works', 'writing', 'experience', 'con
           return d.skills
             .map((s) => {
               const filled = Math.max(1, Math.round(Math.min(1, s.months / d.skillScale) * 12));
-              const years = `${Math.floor(s.months / 12)}y${s.months % 12 ? `${s.months % 12}m` : ''}`;
+              const y = Math.floor(s.months / 12);
+              const m = s.months % 12;
+              const years = y === 0 ? `${m}m` : `${y}y${m ? `${m}m` : ''}`;
               return `${pad(s.name, 20)}${span('acc', '█'.repeat(filled))}${span('dim', '░'.repeat(12 - filled))} ${span('y', years)}`;
             })
             .join('\n');

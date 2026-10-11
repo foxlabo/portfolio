@@ -4,7 +4,12 @@ import Icon from './Icon.astro';
 
 const stackLine = `${profile.stack.join(' ✦ ')} ✦`;
 const barRatio = (months: number) => Math.min(1, months / profile.skillScaleMonths);
-const formatMonths = (m: number) => `${Math.floor(m / 12)}年${m % 12 ? `${m % 12}ヶ月` : ''}`;
+const formatMonths = (m: number) => {
+  const y = Math.floor(m / 12);
+  const rest = m % 12;
+  if (y === 0) return `${rest}ヶ月`;
+  return `${y}年${rest ? `${rest}ヶ月` : ''}`;
+};
 ---
 
 <section class="section" id="about" aria-labelledby="about-title">
