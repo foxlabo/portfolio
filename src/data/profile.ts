@@ -217,7 +217,7 @@ export const profile = {
   experience: list<Experience>([
     {
       period: '2026.08 — 現在',
-      role: 'フルスタックエンジニア',
+      role: 'フルスタック AI エンジニア',
       org: '生成 AI 系 Web サービス開発（フリーランス・複数案件）',
       summary:
         'RAG チャットボット、AI 面接システム、車両画像解析 AI の開発に参画。要件定義から Next.js／Hono／Fastify によるフルスタック開発、pgvector＋PGroonga のハイブリッド RAG、OpenAI・Claude・Amazon Bedrock を使った AI 機能、Terraform／GitHub Actions による AWS 基盤構築までを担当。',
